@@ -44,6 +44,13 @@ nbactions.xml
 nb-configuration.xml
 build.xml
 *.properties
+build/generated-sources/ap-source-output/Comic_.java
+build/generated-sources/ap-source-output/Entrega_.java
+build/web/WEB-INF/classes/ejb/ComicFacade.class
+build/web/WEB-INF/classes/ejb/EntregaFacade.class
+build/web/WEB-INF/classes/entity/Comic.class 
+build/web/WEB-INF/classes/entity/Entrega.class
+
 
 # OS
 .DS_Store
