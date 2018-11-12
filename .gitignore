@@ -40,7 +40,7 @@ build/
 nbbuild/
 dist/
 nbdist/
-nbproject/
+nbproject/*
 nbactions.xml
 nb-configuration.xml
 build.xml
