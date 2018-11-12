@@ -59,3 +59,5 @@ pom.xml.tag
 
 
 
+build/generated-sources/ap-source-output/entity/Comic_.java
+build/generated-sources/ap-source-output/entity/Entrega_.java
