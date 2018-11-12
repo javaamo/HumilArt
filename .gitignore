@@ -40,6 +40,7 @@ build/
 nbbuild/
 dist/
 nbdist/
+ngproject/
 nbactions.xml
 nb-configuration.xml
 build.xml
