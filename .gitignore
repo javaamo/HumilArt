@@ -61,3 +61,4 @@ build/web/WEB-INF/classes/entity/Entrega.class
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+/nbproject/private/
