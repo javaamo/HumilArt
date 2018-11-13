@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Comic.findAll", query = "SELECT c FROM Comic c")
     , @NamedQuery(name = "Comic.findByIdComic", query = "SELECT c FROM Comic c WHERE c.idComic = :idComic")
     , @NamedQuery(name = "Comic.findByNombre", query = "SELECT c FROM Comic c WHERE c.nombre = :nombre")
-    , @NamedQuery(name = "Comic.findByDescripcion", query = "SELECT c FROM Comic c WHERE c.descripcion = :descripcion")})
+    , @NamedQuery(name = "Comic.findByDescripcion", query = "SELECT c FROM Comic c WHERE c.descripcion = :descripcion")
+    , @NamedQuery(name = "Comic.findByFechaCreacion", query = "SELECT c FROM Comic c WHERE c.fechaCreacion = :fechaCreacion")})
 public class Comic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,12 +47,19 @@ public class Comic implements Serializable {
     @Basic(optional = false)
     @Column(name = "idComic")
     private Integer idComic;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
     @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fechaCreacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idComic")
     private Collection<Entrega> entregaCollection;
 
@@ -56,6 +68,17 @@ public class Comic implements Serializable {
 
     public Comic(Integer idComic) {
         this.idComic = idComic;
+    }
+
+    public Comic(String nombre,String descripcion){
+        this.nombre=nombre;
+        this.descripcion=descripcion;
+    }
+    
+    public Comic(Integer idComic, String nombre, Date fechaCreacion) {
+        this.idComic = idComic;
+        this.nombre = nombre;
+        this.fechaCreacion = fechaCreacion;
     }
 
     public Integer getIdComic() {
@@ -80,6 +103,14 @@ public class Comic implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     @XmlTransient

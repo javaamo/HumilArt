@@ -9,19 +9,17 @@ import ejb.ComicFacade;
 import entity.Comic;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.jws.WebService;
-import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebService;
 
 /**
  *
  * @author bonetti
  */
-@WebService(serviceName = "ComicService")
-@Stateless()
-public class ComicService {
+@WebService(serviceName = "ComicWebService")
+public class ComicWebService {
 
     @EJB
     private ComicFacade ejbRef;// Add business logic below. (Right-click in editor and choose
@@ -32,6 +30,8 @@ public class ComicService {
     public void create(@WebParam(name = "entity") Comic entity) {
         ejbRef.create(entity);
     }
+    
+    
 
     @WebMethod(operationName = "edit")
     @Oneway
@@ -64,7 +64,44 @@ public class ComicService {
     public int count() {
         return ejbRef.count();
     }
-
-
+    
+    @WebMethod(operationName="encontrarPorFecha")
+    public List<Comic> findByFecha(){
+        return ejbRef.ordenarFecha();
+    }
+    
+    @WebMethod(operationName="encontrarPorNombreAlfabetico")
+    public List<Comic> findByNombre(){
+        return ejbRef.ordenarAlfabetico();
+    }
+    
+    @WebMethod(operationName = "buscarNombre")
+    public List<Comic> buscarPorNombre(@WebParam(name = "nombre") String nombre) {
+        return ejbRef.buscarNombre(nombre);
+    }
+    
+    @WebMethod(operationName = "buscarPorNumEntrega")
+    public List<Comic> buscarPorNumEntrega() {
+        return ejbRef.ordenarPorEntregas();
+    }
+    
+    @WebMethod(operationName = "addComic")
+    @Oneway
+    public void addComic(@WebParam(name = "nombre") String nombre,@WebParam(name = "comentario") String comentario) {
+        Comic nuevoComic= new Comic(nombre,comentario);
+        ejbRef.create(nuevoComic);
+        
+    }
+    
+    @WebMethod(operationName = "editComic")
+    @Oneway
+    public void editComic(@WebParam(name = "comic") Comic comic,@WebParam(name = "nuevoNombre") String nuevoNombre ,@WebParam(name = "nuevaDescripcion") String nuevaDescripcion  ) {
+        Comic nuevoComic= ejbRef.find(comic);
+        nuevoComic.setDescripcion(nuevaDescripcion);
+        nuevoComic.setNombre(nuevoNombre);
+        ejbRef.edit(nuevoComic);
+        
+    }
+    
     
 }

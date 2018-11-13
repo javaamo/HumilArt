@@ -6,9 +6,12 @@
 package ejb;
 
 import entity.Comic;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,7 +32,44 @@ public class ComicFacade extends AbstractFacade<Comic> {
         super(Comic.class);
     }
     
+    public List<Comic> ordenarFecha(){
+        Query q= this.em.createQuery("SELECT c FROM Comic c ORDER BY c.fechaCreacion DESC");
+         List<Comic> lista = (List<Comic>)q.getResultList();
+        if(lista.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return lista;
+        } 
+    }
+    public List<Comic> ordenarAlfabetico(){
+        Query q = this.em.createQuery("SELECT c FROM Comic c ORDER BY c.nombre ");
+         List<Comic> lista = (List<Comic>)q.getResultList();
+        if(lista.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return lista;
+        }
+    }
+    public List<Comic> buscarNombre(String nombre){    
+        Query q= this.em.createQuery("SELECT c from Comic c where c.nombre = :nombre");
+        q.setParameter("nombre", nombre);
+        List<Comic> lista = (List<Comic>)q.getResultList();
+        if(lista.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return lista;
+        }
+    }
     
-    
+    public List<Comic> ordenarPorEntregas(){
+       Query q= this.em.createQuery("select c from Comic c order by (select count(e.idComic) from Entrega e where e.idComic=c.idComic)");
+
+        List<Comic> lista = (List<Comic>)q.getResultList();
+        if(lista.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return lista;
+        }
+    }
     
 }

@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Entrega.findAll", query = "SELECT e FROM Entrega e")
     , @NamedQuery(name = "Entrega.findByIdEntrega", query = "SELECT e FROM Entrega e WHERE e.idEntrega = :idEntrega")
-    , @NamedQuery(name = "Entrega.findByNombre", query = "SELECT e FROM Entrega e WHERE e.nombre = :nombre")})
+    , @NamedQuery(name = "Entrega.findByNombre", query = "SELECT e FROM Entrega e WHERE e.nombre = :nombre")
+    , @NamedQuery(name = "Entrega.findByFechaCreacion", query = "SELECT e FROM Entrega e WHERE e.fechaCreacion = :fechaCreacion")})
 public class Entrega implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +55,11 @@ public class Entrega implements Serializable {
     @Lob
     @Column(name = "archivo")
     private byte[] archivo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fechaCreacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
     @JoinColumn(name = "idComic", referencedColumnName = "idComic")
     @ManyToOne(optional = false)
     private Comic idComic;
@@ -62,10 +71,11 @@ public class Entrega implements Serializable {
         this.idEntrega = idEntrega;
     }
 
-    public Entrega(Integer idEntrega, String nombre, byte[] archivo) {
+    public Entrega(Integer idEntrega, String nombre, byte[] archivo, Date fechaCreacion) {
         this.idEntrega = idEntrega;
         this.nombre = nombre;
         this.archivo = archivo;
+        this.fechaCreacion = fechaCreacion;
     }
 
     public Integer getIdEntrega() {
@@ -90,6 +100,14 @@ public class Entrega implements Serializable {
 
     public void setArchivo(byte[] archivo) {
         this.archivo = archivo;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public Comic getIdComic() {
