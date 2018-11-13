@@ -103,5 +103,10 @@ public class ComicWebService {
         
     }
     
+    public Comic findComicById(@WebParam(name="idComic") Integer idComic){
+      return ejbRef.find(idComic);
+    }
+    
+    
     
 }
