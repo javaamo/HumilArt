@@ -7,6 +7,7 @@ package appws;
 
 import ejb.ComicFacade;
 import entity.Comic;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.Oneway;

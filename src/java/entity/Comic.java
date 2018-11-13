@@ -73,6 +73,7 @@ public class Comic implements Serializable {
     public Comic(String nombre,String descripcion){
         this.nombre=nombre;
         this.descripcion=descripcion;
+        this.fechaCreacion = new Date();
     }
     
     public Comic(Integer idComic, String nombre, Date fechaCreacion) {
