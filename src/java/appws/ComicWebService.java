@@ -90,8 +90,7 @@ public class ComicWebService {
     @Oneway
     public void addComic(@WebParam(name = "nombre") String nombre,@WebParam(name = "comentario") String comentario) {
         Comic nuevoComic= new Comic(nombre,comentario);
-        ejbRef.create(nuevoComic);
-        
+        ejbRef.create(nuevoComic);     
     }
     
     @WebMethod(operationName = "editComic")
