@@ -7,6 +7,7 @@ package appws;
 
 import ejb.ComicFacade;
 import entity.Comic;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -32,8 +33,6 @@ public class ComicWebService {
         ejbRef.create(entity);
     }
     
-    
-
     @WebMethod(operationName = "edit")
     @Oneway
     public void edit(@WebParam(name = "entity") Comic entity) {
@@ -87,14 +86,12 @@ public class ComicWebService {
     }
     
     @WebMethod(operationName = "addComic")
-    @Oneway
     public void addComic(@WebParam(name = "nombre") String nombre,@WebParam(name = "comentario") String comentario) {
         Comic nuevoComic= new Comic(nombre,comentario);
-        ejbRef.create(nuevoComic);     
+        ejbRef.create(nuevoComic);
     }
     
     @WebMethod(operationName = "editComic")
-    @Oneway
     public void editComic(@WebParam(name = "comic") Comic comic,@WebParam(name = "nuevoNombre") String nuevoNombre ,@WebParam(name = "nuevaDescripcion") String nuevaDescripcion  ) {
         Comic nuevoComic= ejbRef.find(comic);
         nuevoComic.setDescripcion(nuevaDescripcion);
