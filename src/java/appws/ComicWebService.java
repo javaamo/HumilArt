@@ -7,6 +7,7 @@ package appws;
 
 import ejb.ComicFacade;
 import entity.Comic;
+import entity.Entrega;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -108,6 +109,12 @@ public class ComicWebService {
     @WebMethod(operationName="buscarPorFechaMayor")
     public List <Comic> buscarPorFechaMayor(Date d){
         return ejbRef.buscarFecha(d);
+    }
+    
+    @WebMethod(operationName="getEntregasComic")
+    public List<Entrega> entregasComic(@WebParam(name = "comic") Integer comic){
+       Comic c= ejbRef.find(comic);
+       return (List<Entrega>)c.getEntregaCollection();
     }
     
 
