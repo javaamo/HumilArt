@@ -51,8 +51,8 @@ public class ComicFacade extends AbstractFacade<Comic> {
         }
     }
     public List<Comic> buscarNombre(String nombre){    
-        Query q= this.em.createQuery("SELECT c from Comic c where c.nombre = :nombre");
-        q.setParameter("nombre", nombre);
+        Query q= this.em.createQuery("SELECT c from Comic c where c.nombre LIKE :nombre");
+        q.setParameter("nombre","%"+ nombre+"%");
         List<Comic> lista = (List<Comic>)q.getResultList();
         if(lista.isEmpty()){
             return new ArrayList<>();
