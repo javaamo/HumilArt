@@ -100,8 +100,5 @@ public class EntregaWebService {
         Entrega nuevaEntrega= ejbRef.find(entrega);
         nuevaEntrega.setNombre(nuevoNombre);
         ejbRef.edit(nuevaEntrega);
-    }
-    
-    
-    
+    } 
 }
