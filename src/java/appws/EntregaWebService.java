@@ -45,13 +45,14 @@ public class EntregaWebService {
     }
 
     @WebMethod(operationName = "find")
-    public Entrega find(@WebParam(name = "id") Object id) {
-        return ejbRef.find(id);
+    public Entrega find(@WebParam(name = "id") Integer id) {
+        Entrega entrega = ejbRef.find(id);
+        return entrega;
     }
 
     @WebMethod(operationName = "findAll")
     public List<Entrega> findAll() {
-        return ejbRef.findAll();
+        return (List<Entrega>)ejbRef.findAll();
     }
 
     @WebMethod(operationName = "findRange")
@@ -77,5 +78,7 @@ public class EntregaWebService {
     public List<Entrega> filtrarPorFecha(@WebParam(name = "fecha") Date fecha) {
         return ejbRef.filtrarPorFecha(fecha);
     }
+    
+    
     
 }
