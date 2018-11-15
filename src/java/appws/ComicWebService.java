@@ -91,15 +91,15 @@ public class ComicWebService {
         ejbRef.create(nuevoComic);
     }
     
-    @WebMethod(operationName = "editComic")
-    public void editComic(@WebParam(name = "comic") Comic comic,@WebParam(name = "nuevoNombre") String nuevoNombre ,@WebParam(name = "nuevaDescripcion") String nuevaDescripcion  ) {
+     @WebMethod(operationName = "editComic")
+    public void editComic(@WebParam(name = "comic") Integer comic,@WebParam(name = "nuevoNombre") String nuevoNombre ,@WebParam(name = "nuevaDescripcion") String nuevaDescripcion  ) {
         Comic nuevoComic= ejbRef.find(comic);
         nuevoComic.setDescripcion(nuevaDescripcion);
         nuevoComic.setNombre(nuevoNombre);
         ejbRef.edit(nuevoComic);
         
     }
-    
+   @WebMethod(operationName = "findComicById") 
     public Comic findComicById(@WebParam(name="idComic") Integer idComic){
       return ejbRef.find(idComic);
     }
