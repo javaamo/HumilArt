@@ -8,10 +8,16 @@ package appws;
 import ejb.ComicFacade;
 import entity.Comic;
 import entity.Entrega;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.imageio.ImageIO;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -115,6 +121,19 @@ public class ComicWebService {
     public List<Entrega> entregasComic(@WebParam(name = "comic") Integer comic){
        Comic c= ejbRef.find(comic);
        return (List<Entrega>)c.getEntregaCollection();
+    }
+     @WebMethod(operationName="getFoto")
+    public BufferedImage foto(@WebParam(name = "comic") Integer comic){
+       Comic c= ejbRef.find(comic);
+      List<Entrega> e=(List<Entrega>) c.getEntregaCollection();
+      BufferedImage f;
+        try {
+            f = ImageIO.read(new ByteArrayInputStream(e.get(0).getArchivo()));
+            return f;
+        } catch (IOException ex) {
+            Logger.getLogger(ComicWebService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 
