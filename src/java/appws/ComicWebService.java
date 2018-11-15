@@ -41,8 +41,9 @@ public class ComicWebService {
 
     @WebMethod(operationName = "remove")
     @Oneway
-    public void remove(@WebParam(name = "entity") Comic entity) {
-        ejbRef.remove(entity);
+    public void remove(@WebParam(name = "entity") Integer entity) {
+        Comic c = ejbRef.find(entity);
+        ejbRef.remove(c);
     }
 
     @WebMethod(operationName = "find")
@@ -104,6 +105,6 @@ public class ComicWebService {
       return ejbRef.find(idComic);
     }
     
-    
+
     
 }
