@@ -122,19 +122,7 @@ public class ComicWebService {
        Comic c= ejbRef.find(comic);
        return (List<Entrega>)c.getEntregaCollection();
     }
-     @WebMethod(operationName="getFoto")
-    public BufferedImage foto(@WebParam(name = "comic") Integer comic){
-       Comic c= ejbRef.find(comic);
-      List<Entrega> e=(List<Entrega>) c.getEntregaCollection();
-      BufferedImage f;
-        try {
-            f = ImageIO.read(new ByteArrayInputStream(e.get(0).getArchivo()));
-            return f;
-        } catch (IOException ex) {
-            Logger.getLogger(ComicWebService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+     
     
 
     
