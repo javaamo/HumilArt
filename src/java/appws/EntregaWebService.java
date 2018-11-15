@@ -72,12 +72,12 @@ public class EntregaWebService {
         return ejbRef.count();
     }
     
-      @WebMethod(operationName="encontrarPorFechaDesc")
+      @WebMethod(operationName="findByFechaDesc")
     public List<Entrega> findByFechaDesc(){
         return ejbRef.ordenarFecha();
     }
     
-    @WebMethod(operationName="encontrarPorTamano")
+    @WebMethod(operationName="findByTamano")
     public List<Entrega> findByTamano(){
         return ejbRef.ordenarTamano();
     }
