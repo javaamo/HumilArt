@@ -7,6 +7,7 @@ package ejb;
 
 import entity.Comic;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -50,6 +51,12 @@ public class ComicFacade extends AbstractFacade<Comic> {
             return lista;
         }
     }
+    
+    public List<Comic> buscarFecha (Date d){
+        Query q=this.em.createQuery("Select c from Comic c where c.fechaCreacion >= :fecha");
+        q.setParameter("fecha", d);
+        return q.getResultList();
+    }
     public List<Comic> buscarNombre(String nombre){    
         Query q= this.em.createQuery("SELECT c from Comic c where c.nombre LIKE :nombre");
         q.setParameter("nombre","%"+ nombre+"%");
@@ -63,7 +70,6 @@ public class ComicFacade extends AbstractFacade<Comic> {
     
     public List<Comic> ordenarPorEntregas(){
        Query q= this.em.createQuery("select c from Comic c order by (select count(e.idComic) from Entrega e where e.idComic=c.idComic)");
-
         List<Comic> lista = (List<Comic>)q.getResultList();
         if(lista.isEmpty()){
             return new ArrayList<>();

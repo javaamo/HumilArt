@@ -105,6 +105,11 @@ public class ComicWebService {
       return ejbRef.find(idComic);
     }
     
+    @WebMethod(operationName="buscarPorFechaMayor")
+    public List <Comic> buscarPorFechaMayor(Date d){
+        return ejbRef.buscarFecha(d);
+    }
+    
 
     
 }
