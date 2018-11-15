@@ -5,7 +5,9 @@
  */
 package appws;
 
+import ejb.ComicFacade;
 import ejb.EntregaFacade;
+import entity.Comic;
 import entity.Entrega;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +25,12 @@ import javax.jws.WebService;
 public class EntregaWebService {
 
     @EJB
+    private ComicFacade comicFacade;
+
+    @EJB
     private EntregaFacade ejbRef;// Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Web Service Operation")
+    
 
     @WebMethod(operationName = "create")
     @Oneway
@@ -40,8 +46,9 @@ public class EntregaWebService {
 
     @WebMethod(operationName = "remove")
     @Oneway
-    public void remove(@WebParam(name = "entity") Entrega entity) {
-        ejbRef.remove(entity);
+    public void remove(@WebParam(name = "entity") Integer entity) {
+        Entrega e = ejbRef.find(entity);
+        ejbRef.remove(e);
     }
 
     @WebMethod(operationName = "find")
@@ -77,6 +84,22 @@ public class EntregaWebService {
     @WebMethod(operationName = "filtrarPorFecha")
     public List<Entrega> filtrarPorFecha(@WebParam(name = "fecha") Date fecha) {
         return ejbRef.filtrarPorFecha(fecha);
+    }
+    
+    @WebMethod(operationName = "addEntrega")
+    public void addEntrega(@WebParam(name = "nombre") String nombre,@WebParam(name = "archivo") byte[] archivo,@WebParam(name = "idComic") int idComic) {
+        Comic comic;
+        comic = comicFacade.find(idComic);
+        Entrega entrega = new Entrega(nombre,archivo);
+        entrega.setIdComic(comic);
+        ejbRef.create(entrega);
+    }
+    
+     @WebMethod(operationName = "editEntrega")
+    public void editEntrega(@WebParam(name = "entrega") Integer entrega,@WebParam(name = "nuevoNombre") String nuevoNombre) {
+        Entrega nuevaEntrega= ejbRef.find(entrega);
+        nuevaEntrega.setNombre(nuevoNombre);
+        ejbRef.edit(nuevaEntrega);
     }
     
     

@@ -5,8 +5,14 @@
  */
 package entity;
 
+import ejb.ComicFacade;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -63,7 +69,7 @@ public class Entrega implements Serializable {
     @JoinColumn(name = "idComic", referencedColumnName = "idComic")
     @ManyToOne(optional = false)
     private Comic idComic;
-
+    
     public Entrega() {
     }
 
@@ -76,6 +82,12 @@ public class Entrega implements Serializable {
         this.nombre = nombre;
         this.archivo = archivo;
         this.fechaCreacion = fechaCreacion;
+    }
+    public Entrega( String nombre, byte[] archivo) {
+        this.nombre = nombre;
+        byte[] archivos = "ejemplo".getBytes();
+        this.archivo = archivos;
+        this.fechaCreacion = new Date();
     }
 
     public Integer getIdEntrega() {
