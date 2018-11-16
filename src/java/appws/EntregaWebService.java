@@ -51,7 +51,7 @@ public class EntregaWebService {
         ejbRef.remove(e);
     }
 
-    @WebMethod(operationName = "find")
+    @WebMethod(operationName = "findID")
     public Entrega find(@WebParam(name = "id") Integer id) {
         Entrega entrega = ejbRef.find(id);
         return entrega;
@@ -73,21 +73,24 @@ public class EntregaWebService {
     }
     
       @WebMethod(operationName="findByFechaDesc")
-    public List<Entrega> findByFechaDesc(){
-        return ejbRef.ordenarFecha();
+    public List<Entrega> findByFechaDesc(@WebParam(name = "idComic") Integer idComic){
+        Comic c= comicFacade.find(idComic);
+        return ejbRef.ordenarFecha(c);
     }
     
-    @WebMethod(operationName="findByTamano")
-    public List<Entrega> findByTamano(){
-        return ejbRef.ordenarTamano();
+    @WebMethod(operationName="orderInversoNombre")
+    public List<Entrega> orderInversoNombre(@WebParam(name = "idComic") Integer idComic){
+        Comic c= comicFacade.find(idComic);
+        return ejbRef.ordenarNombreInverso(c);
     }
     @WebMethod(operationName = "filtrarPorFecha")
-    public List<Entrega> filtrarPorFecha(@WebParam(name = "fecha") Date fecha) {
-        return ejbRef.filtrarPorFecha(fecha);
+    public List<Entrega> filtrarPorFecha(@WebParam(name = "fecha") Date fecha, @WebParam(name = "comic") Integer   comic) {
+        Comic c = comicFacade.find(comic);
+        return ejbRef.filtrarPorFecha(fecha,c);
     }
     
     @WebMethod(operationName = "addEntrega")
-    public void addEntrega(@WebParam(name = "nombre") String nombre,@WebParam(name = "archivo") byte[] archivo,@WebParam(name = "idComic") int idComic) {
+    public void addEntrega(@WebParam(name = "nombre") String nombre,@WebParam(name = "archivo") String archivo,@WebParam(name = "idComic") int idComic) {
         Comic comic;
         comic = comicFacade.find(idComic);
         Entrega entrega = new Entrega(nombre,archivo);

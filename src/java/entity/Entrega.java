@@ -45,6 +45,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Entrega.findByFechaCreacion", query = "SELECT e FROM Entrega e WHERE e.fechaCreacion = :fechaCreacion")})
 public class Entrega implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 800)
+    @Column(name = "archivo")
+    private String archivo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,11 +62,6 @@ public class Entrega implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
-    //@NotNull
-    @Lob
-    @Column(name = "archivo",length=100000)
-    private byte[] archivo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fechaCreacion")
@@ -77,16 +78,16 @@ public class Entrega implements Serializable {
         this.idEntrega = idEntrega;
     }
 
-    public Entrega(Integer idEntrega, String nombre, byte[] archivo, Date fechaCreacion) {
+    public Entrega(Integer idEntrega, String nombre, String archivo, Date fechaCreacion) {
         this.idEntrega = idEntrega;
         this.nombre = nombre;
         this.archivo = archivo;
         this.fechaCreacion = fechaCreacion;
     }
-    public Entrega( String nombre, byte[] archivo) {
+    public Entrega( String nombre, String archivo) {
         this.nombre = nombre;
         byte[] archivos = "ejemplo".getBytes();
-        this.archivo = archivos;
+        this.archivo = archivo;
         this.fechaCreacion = new Date();
     }
 
@@ -106,13 +107,6 @@ public class Entrega implements Serializable {
         this.nombre = nombre;
     }
 
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
-    }
 
     public Date getFechaCreacion() {
         return fechaCreacion;
@@ -153,6 +147,14 @@ public class Entrega implements Serializable {
     @Override
     public String toString() {
         return "entity.Entrega[ idEntrega=" + idEntrega + " ]";
+    }
+
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
     }
     
 }

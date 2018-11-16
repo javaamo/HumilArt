@@ -34,8 +34,9 @@ public class EntregaFacade extends AbstractFacade<Entrega> {
         super(Entrega.class);
     }
     
-      public List<Entrega> ordenarFecha(){
-        Query q= this.em.createQuery("SELECT e FROM Entrega e ORDER BY e.fechaCreacion ASC");
+      public List<Entrega> ordenarFecha(Comic c){
+        Query q= this.em.createQuery("SELECT e FROM Entrega e WHERE e.idComic =:comic ORDER BY e.fechaCreacion ASC");
+        q.setParameter("comic", c);
         List<Entrega> lista = (List<Entrega>)q.getResultList();
         if(lista.isEmpty()){
             return new ArrayList<>();
@@ -43,8 +44,9 @@ public class EntregaFacade extends AbstractFacade<Entrega> {
             return lista;
         } 
     }
-      public List <Entrega> ordenarTamano(){
-          Query q= this.em.createQuery("SELECT e FROM Entrega e ORDER BY LENGTH(e.archivo)");
+      public List <Entrega> ordenarNombreInverso(Comic c){
+          Query q= this.em.createQuery("SELECT e FROM Entrega e WHERE e.idComic =:comic ORDER BY e.nombre DESC ");
+         q.setParameter("comic", c);
           List<Entrega> lista = (List<Entrega>)q.getResultList();
           if(lista.isEmpty()){
             return new ArrayList<>();
@@ -53,8 +55,9 @@ public class EntregaFacade extends AbstractFacade<Entrega> {
           }
       }
       
-      public List<Entrega> filtrarPorFecha(Date fecha){
-          Query q= this.em.createQuery("SELECT e FROM Entrega e where e.fechaCreacion > :fecha");
+      public List<Entrega> filtrarPorFecha(Date fecha, Comic c){
+          Query q= this.em.createQuery("SELECT e FROM Entrega e where (e.fechaCreacion >= :fecha AND e.idComic =:comic)");
+          q.setParameter("comic", c);
           q.setParameter("fecha", fecha);
           List<Entrega> lista = (List<Entrega>)q.getResultList();
           if(lista.isEmpty()){
