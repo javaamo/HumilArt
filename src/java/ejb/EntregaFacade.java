@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import entity.Comic;
 import entity.Entrega;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,5 +64,15 @@ public class EntregaFacade extends AbstractFacade<Entrega> {
           } 
       }
       
+      public List<Entrega> entregasPorComic(Comic comic){
+          Query q = this.em.createQuery("SELECT e FROM Entrega e where e.idComic = :comic");
+          q.setParameter("comic", comic);
+           List<Entrega> lista = (List<Entrega>)q.getResultList();
+          if(lista.isEmpty()){
+            return new ArrayList<>();
+          }else{
+            return lista;
+          } 
+      }
     
 }

@@ -75,7 +75,7 @@ public class ComicFacade extends AbstractFacade<Comic> {
             return new ArrayList<>();
         }else{
             return lista;
-        }
+        }  
     }
     
 }

@@ -6,6 +6,7 @@
 package appws;
 
 import ejb.ComicFacade;
+import ejb.EntregaFacade;
 import entity.Comic;
 import entity.Entrega;
 import java.awt.image.BufferedImage;
@@ -31,9 +32,14 @@ import javax.jws.WebService;
 public class ComicWebService {
 
     @EJB
+    private EntregaFacade entregaFacade;
+
+    @EJB
     private ComicFacade ejbRef;// Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Web Service Operation")
 
+    
+    
     @WebMethod(operationName = "create")
     @Oneway
     public void create(@WebParam(name = "entity") Comic entity) {
@@ -120,7 +126,8 @@ public class ComicWebService {
     @WebMethod(operationName="getEntregasComic")
     public List<Entrega> entregasComic(@WebParam(name = "comic") Integer comic){
        Comic c= ejbRef.find(comic);
-       return (List<Entrega>)c.getEntregaCollection();
+       List<Entrega> lista = entregaFacade.entregasPorComic(c);
+       return lista;
     }
      
     

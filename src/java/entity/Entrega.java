@@ -57,9 +57,9 @@ public class Entrega implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Lob
-    @Column(name = "archivo")
+    @Column(name = "archivo",length=100000)
     private byte[] archivo;
     @Basic(optional = false)
     @NotNull
