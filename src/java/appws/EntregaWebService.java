@@ -5,6 +5,7 @@
  */
 package appws;
 
+import com.sun.xml.wss.impl.misc.Base64;
 import ejb.ComicFacade;
 import ejb.EntregaFacade;
 import entity.Comic;
@@ -90,7 +91,7 @@ public class EntregaWebService {
     }
     
     @WebMethod(operationName = "addEntrega")
-    public void addEntrega(@WebParam(name = "nombre") String nombre,@WebParam(name = "archivo") String archivo,@WebParam(name = "idComic") int idComic) {
+    public void addEntrega(@WebParam(name = "nombre") String nombre,@WebParam(name = "archivo") byte[] archivo,@WebParam(name = "idComic") int idComic) {
         Comic comic;
         comic = comicFacade.find(idComic);
         Entrega entrega = new Entrega(nombre,archivo);
@@ -104,4 +105,13 @@ public class EntregaWebService {
         nuevaEntrega.setNombre(nuevoNombre);
         ejbRef.edit(nuevaEntrega);
     } 
+    
+         @WebMethod(operationName = "getFoto")
+      public String fotoBase64(@WebParam(name="idFoto") Integer idFoto){
+         Entrega nuevaEntrega= ejbRef.find(idFoto);
+         String fotoB64=Base64.encode(nuevaEntrega.getArchivo());
+         return fotoB64;
+      }
+
+    
 }
