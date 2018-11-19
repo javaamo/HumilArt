@@ -52,7 +52,7 @@ public class EntregaWebService {
         ejbRef.remove(e);
     }
 
-    @WebMethod(operationName = "findID")
+    @WebMethod(operationName = "find")
     public Entrega find(@WebParam(name = "id") Integer id) {
         Entrega entrega = ejbRef.find(id);
         return entrega;
