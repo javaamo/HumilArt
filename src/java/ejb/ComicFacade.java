@@ -8,6 +8,7 @@ package ejb;
 import entity.Comic;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -69,12 +70,20 @@ public class ComicFacade extends AbstractFacade<Comic> {
     }
     
     public List<Comic> ordenarPorEntregas(){
-       Query q= this.em.createQuery("select c from Comic c order by (select count(e.idComic) from Entrega e where e.idComic=c.idComic)");
-        List<Comic> lista = (List<Comic>)q.getResultList();
-        if(lista.isEmpty()){
+       Query q= this.em.createNativeQuery("SELECT c.* FROM Comic as c JOIN Entrega AS e on c.idComic=e.idComic GROUP BY e.idComic ORDER BY count(e.idEntrega) DESC");
+        List<Object[]> lista = (List<Object[]>)q.getResultList();
+        Iterator<Object[]> it = lista.iterator();
+        List<Comic> listaC = new ArrayList<>();
+        if(!lista.isEmpty()){
+            while(it.hasNext()){
+            Comic co = this.find(it.next()[0]);
+            listaC.add(co);
+            }
+        }    
+        if(listaC.isEmpty()){
             return new ArrayList<>();
         }else{
-            return lista;
+            return listaC;
         }  
     }
     
